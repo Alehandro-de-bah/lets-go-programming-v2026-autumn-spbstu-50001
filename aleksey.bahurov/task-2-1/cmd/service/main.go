@@ -7,18 +7,20 @@ import (
 )
 
 func main() {
-	var n int
-	fmt.Scan(&n)
+	var departmentsNumber int
+	if _, err := fmt.Scan(&departmentsNumber); err != nil {
+		return
+	}
 
-	for range n {
-		var k int
-		if _, err := fmt.Scan(&k); err != nil {
+	for range departmentsNumber {
+		var employeesNumber int
+		if _, err := fmt.Scan(&employeesNumber); err != nil {
 			return
 		}
 
 		currentRange := climate.NewRange()
 
-		for range k {
+		for range employeesNumber {
 			var (
 				comparison  string
 				temperature int
