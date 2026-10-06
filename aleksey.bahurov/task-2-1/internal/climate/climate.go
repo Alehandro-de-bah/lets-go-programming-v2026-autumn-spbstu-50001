@@ -29,3 +29,9 @@ type Range struct {
 	low  int
 	high int
 }
+
+// CreateRange - функция, возвращающая объект Range
+// с границами по умолчанию [MinTemperature, MaxTemperature].
+func CreateRange() Range {
+	return Range{low: MinTemperature, high: MaxTemperature}
+}
