@@ -13,11 +13,19 @@ type Constraint struct {
 	value        int
 }
 
-// CreateConstraint - функция, возвращающая Constraint на
-// основе знака сравнения cmp и температуры temp.
+// CreateConstraint - функция, возвращающая объект Constraint
+// на основе знака сравнения cmp и температуры temp.
 func CreateConstraint(cmp string, temp int) Constraint {
 	return Constraint{
 		isLowerBound: cmp == ">=",
 		value:        temp,
 	}
+}
+
+// Range - структура для хранения диапазона [low, high].
+// low - нижняя граница.
+// high - верхняя граница.
+type Range struct {
+	low  int
+	high int
 }
