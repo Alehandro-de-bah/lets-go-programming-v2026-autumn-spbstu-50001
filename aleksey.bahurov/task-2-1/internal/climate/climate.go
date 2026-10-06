@@ -35,3 +35,26 @@ type Range struct {
 func CreateRange() Range {
 	return Range{low: MinTemperature, high: MaxTemperature}
 }
+
+// ApplyConstraint - метод, применяющий
+// ограничение constraint к диапазону r.
+func (r *Range) ApplyConstraint(constraint Constraint) {
+	if constraint.isLowerBound {
+		if constraint.value > r.low {
+			r.low = constraint.value
+		}
+	} else {
+		if constraint.value < r.high {
+			r.high = constraint.value
+		}
+	}
+}
+
+// GetOptimalTemperature - метод, возвращающий
+// оптимальную темпетаруру на основе диапазона r.
+func (r Range) GetOptimalTemperature() int {
+	if r.low > r.high {
+		return -1
+	}
+	return r.low
+}
