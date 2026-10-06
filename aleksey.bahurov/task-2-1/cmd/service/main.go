@@ -10,23 +10,27 @@ func main() {
 	var n int
 	fmt.Scan(&n)
 
-	for i := 0; i < n; i++ {
+	for range n {
 		var k int
-		fmt.Scan(&k)
+		if _, err := fmt.Scan(&k); err != nil {
+			return
+		}
 
-		r := climate.NewRange()
+		currentRange := climate.NewRange()
 
-		for j := 0; j < k; j++ {
+		for range k {
 			var (
 				comparison  string
 				temperature int
 			)
 
-			fmt.Scan(&comparison, &temperature)
+			if _, err := fmt.Scan(&comparison, &temperature); err != nil {
+				return
+			}
 
-			r.ApplyConstraint(climate.NewConstraint(comparison, temperature))
+			currentRange.ApplyConstraint(climate.NewConstraint(comparison, temperature))
 
-			optimalTemperature := r.GetOptimalTemperature()
+			optimalTemperature := currentRange.GetOptimalTemperature()
 			fmt.Println(optimalTemperature)
 		}
 	}

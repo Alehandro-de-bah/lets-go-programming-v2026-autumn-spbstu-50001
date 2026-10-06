@@ -49,9 +49,10 @@ func (r *Range) ApplyConstraint(constraint Constraint) {
 
 // GetOptimalTemperature - метод, возвращающий
 // оптимальную температуру на основе диапазона r.
-func (r Range) GetOptimalTemperature() int {
+func (r *Range) GetOptimalTemperature() int {
 	if r.low > r.high {
 		return -1
 	}
+
 	return r.low
 }
