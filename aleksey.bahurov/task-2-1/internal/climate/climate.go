@@ -15,7 +15,7 @@ type Constraint struct {
 
 // CreateConstraint - функция, возвращающая объект Constraint
 // на основе знака сравнения cmp и температуры temp.
-func CreateConstraint(cmp string, temp int) Constraint {
+func NewConstraint(cmp string, temp int) Constraint {
 	return Constraint{
 		isLowerBound: cmp == ">=",
 		value:        temp,
@@ -32,7 +32,7 @@ type Range struct {
 
 // CreateRange - функция, возвращающая объект Range
 // с границами по умолчанию [MinTemperature, MaxTemperature].
-func CreateRange() Range {
+func NewRange() Range {
 	return Range{low: MinTemperature, high: MaxTemperature}
 }
 
