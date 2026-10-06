@@ -5,9 +5,8 @@ const (
 	MaxTemperature = 30
 )
 
-// Constraint - структура, представляющая ограничение снизу или сверху.
-// isLowerBound - true, если ограничение снизу (>=), иначе false.
-// value - ограничивающее значение.
+// Constraint - структура, представляющая ограничение
+// снизу или сверху (isLowerBound) заданным значением (value).
 type Constraint struct {
 	isLowerBound bool
 	value        int
@@ -23,8 +22,6 @@ func NewConstraint(cmp string, temp int) Constraint {
 }
 
 // Range - структура для хранения диапазона [low, high].
-// low - нижняя граница.
-// high - верхняя граница.
 type Range struct {
 	low  int
 	high int
@@ -51,7 +48,7 @@ func (r *Range) ApplyConstraint(constraint Constraint) {
 }
 
 // GetOptimalTemperature - метод, возвращающий
-// оптимальную темпетаруру на основе диапазона r.
+// оптимальную температуру на основе диапазона r.
 func (r Range) GetOptimalTemperature() int {
 	if r.low > r.high {
 		return -1
