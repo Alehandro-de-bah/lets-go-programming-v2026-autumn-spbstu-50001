@@ -12,3 +12,12 @@ type Constraint struct {
 	isLowerBound bool
 	value        int
 }
+
+// CreateConstraint - функция, возвращающая Constraint на
+// основе знака сравнения cmp и температуры temp.
+func CreateConstraint(cmp string, temp int) Constraint {
+	return Constraint{
+		isLowerBound: cmp == ">=",
+		value:        temp,
+	}
+}
