@@ -42,12 +42,14 @@ func main() {
 
 			if _, err := fmt.Scan(&comparison, &temperature); err != nil {
 				fmt.Println("Error: invalid comparison or temperature")
+
 				return
 			}
 
 			constraint, err := climate.NewConstraint(comparison, temperature)
 			if err != nil {
 				fmt.Println(err.Error())
+
 				return
 			}
 
