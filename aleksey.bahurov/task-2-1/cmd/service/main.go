@@ -15,6 +15,7 @@ func main() {
 	var departmentsNumber int
 	if _, err := fmt.Scan(&departmentsNumber); err != nil {
 		fmt.Println("Error: invalid number of departments")
+
 		return
 	}
 
@@ -22,12 +23,14 @@ func main() {
 		var employeesNumber int
 		if _, err := fmt.Scan(&employeesNumber); err != nil {
 			fmt.Println("Error: invalid number of employees")
+
 			return
 		}
 
 		currentRange, err := climate.NewTemperatureRange(minTemperature, maxTemperature)
 		if err != nil {
 			fmt.Println(err.Error())
+
 			return
 		}
 
@@ -53,6 +56,7 @@ func main() {
 			optimalTemperature, err := currentRange.GetOptimalTemperature()
 			if err != nil {
 				fmt.Println(-1)
+
 				continue
 			}
 
