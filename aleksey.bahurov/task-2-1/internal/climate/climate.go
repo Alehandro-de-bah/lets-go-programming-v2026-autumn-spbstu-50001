@@ -31,10 +31,10 @@ func (r *Range) ApplyConstraint(constraint Constraint) {
 		if constraint.value > r.low {
 			r.low = constraint.value
 		}
-	} else {
-		if constraint.value < r.high {
-			r.high = constraint.value
-		}
+		return
+	}
+	if constraint.value < r.high {
+		r.high = constraint.value
 	}
 }
 
