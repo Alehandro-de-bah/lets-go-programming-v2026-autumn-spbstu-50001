@@ -6,6 +6,11 @@ import (
 	"github.com/Alehandro-de-bah/task-2-1/internal/climate"
 )
 
+const (
+	minTemperature = 15
+	maxTemperature = 30
+)
+
 func main() {
 	var departmentsNumber int
 	if _, err := fmt.Scan(&departmentsNumber); err != nil {
@@ -20,7 +25,7 @@ func main() {
 			return
 		}
 
-		currentRange := climate.NewRange()
+		currentRange := climate.NewRange(minTemperature, maxTemperature)
 
 		for range employeesNumber {
 			var (

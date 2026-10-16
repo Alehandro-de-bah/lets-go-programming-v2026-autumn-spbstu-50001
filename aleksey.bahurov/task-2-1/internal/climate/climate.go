@@ -2,11 +2,6 @@ package climate
 
 import "errors"
 
-const (
-	MinTemperature = 15
-	MaxTemperature = 30
-)
-
 type Constraint struct {
 	isLowerBound bool
 	value        int
@@ -24,8 +19,8 @@ type Range struct {
 	high int
 }
 
-func NewRange() Range {
-	return Range{low: MinTemperature, high: MaxTemperature}
+func NewRange(low, high int) Range {
+	return Range{low: low, high: high}
 }
 
 func (r *Range) ApplyConstraint(constraint Constraint) {
