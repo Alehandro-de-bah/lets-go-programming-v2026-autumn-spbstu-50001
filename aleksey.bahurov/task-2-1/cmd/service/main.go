@@ -25,7 +25,10 @@ func main() {
 			return
 		}
 
-		currentRange := climate.NewTemperatureRange(minTemperature, maxTemperature)
+		currentRange, err := climate.NewTemperatureRange(minTemperature, maxTemperature)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 
 		for range employeesNumber {
 			var (
@@ -34,11 +37,17 @@ func main() {
 			)
 
 			if _, err := fmt.Scan(&comparison, &temperature); err != nil {
-				fmt.Println("Error: invalid comparison or input")
+				fmt.Println("Error: invalid comparison or temperature")
 				return
 			}
 
-			currentRange.ApplyConstraint(climate.NewConstraint(comparison, temperature))
+			constraint, err := climate.NewConstraint(comparison, temperature)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			currentRange.ApplyConstraint(constraint)
 
 			optimalTemperature, err := currentRange.GetOptimalTemperature()
 			if err != nil {

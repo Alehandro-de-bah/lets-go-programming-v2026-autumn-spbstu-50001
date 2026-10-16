@@ -7,11 +7,14 @@ type constraint struct {
 	value        int
 }
 
-func NewConstraint(cmp string, temp int) constraint {
+func NewConstraint(cmp string, temp int) (constraint, error) {
+	if cmp != ">=" && cmp != "<=" {
+		return constraint{}, errors.New("Error: invalid comparison operator")
+	}
 	return constraint{
 		isLowerBound: cmp == ">=",
 		value:        temp,
-	}
+	}, nil
 }
 
 type temperatureRange struct {
@@ -19,8 +22,11 @@ type temperatureRange struct {
 	high int
 }
 
-func NewTemperatureRange(low, high int) temperatureRange {
-	return temperatureRange{low: low, high: high}
+func NewTemperatureRange(low, high int) (temperatureRange, error) {
+	if low > high {
+		return temperatureRange{}, errors.New("Error: invalid temperature range")
+	}
+	return temperatureRange{low: low, high: high}, nil
 }
 
 func (r *temperatureRange) ApplyConstraint(constraint constraint) {
