@@ -2,6 +2,12 @@ package climate
 
 import "errors"
 
+var (
+	ErrInvalidOperator = errors.New("invalid comparison operator")
+	ErrInvalidRange    = errors.New("invalid temperature range")
+	ErrEmptyRange      = errors.New("temperature range is empty")
+)
+
 type constraint struct {
 	isLowerBound bool
 	value        int
@@ -9,12 +15,10 @@ type constraint struct {
 
 func NewConstraint(cmp string, temp int) (constraint, error) {
 	if cmp != ">=" && cmp != "<=" {
-		return constraint{}, errors.New("Error: invalid comparison operator")
+		return constraint{}, ErrInvalidOperator
 	}
-	return constraint{
-		isLowerBound: cmp == ">=",
-		value:        temp,
-	}, nil
+
+	return constraint{isLowerBound: cmp == ">=", value: temp}, nil
 }
 
 type temperatureRange struct {
@@ -24,8 +28,9 @@ type temperatureRange struct {
 
 func NewTemperatureRange(low, high int) (temperatureRange, error) {
 	if low > high {
-		return temperatureRange{}, errors.New("Error: invalid temperature range")
+		return temperatureRange{}, ErrInvalidRange
 	}
+
 	return temperatureRange{low: low, high: high}, nil
 }
 
@@ -34,8 +39,10 @@ func (r *temperatureRange) ApplyConstraint(constraint constraint) {
 		if constraint.value > r.low {
 			r.low = constraint.value
 		}
+
 		return
 	}
+
 	if constraint.value < r.high {
 		r.high = constraint.value
 	}
@@ -43,7 +50,7 @@ func (r *temperatureRange) ApplyConstraint(constraint constraint) {
 
 func (r *temperatureRange) GetOptimalTemperature() (int, error) {
 	if r.low > r.high {
-		return -1, errors.New("Error: temperature range is empty")
+		return -1, ErrEmptyRange
 	}
 
 	return r.low, nil

@@ -55,6 +55,7 @@ func main() {
 				fmt.Println(-1)
 				continue
 			}
+
 			fmt.Println(optimalTemperature)
 		}
 	}
