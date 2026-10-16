@@ -25,7 +25,7 @@ func main() {
 			return
 		}
 
-		currentRange := climate.NewRange(minTemperature, maxTemperature)
+		currentRange := climate.NewTemperatureRange(minTemperature, maxTemperature)
 
 		for range employeesNumber {
 			var (

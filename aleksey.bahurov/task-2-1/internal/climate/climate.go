@@ -14,16 +14,16 @@ func NewConstraint(cmp string, temp int) constraint {
 	}
 }
 
-type Range struct {
+type temperatureRange struct {
 	low  int
 	high int
 }
 
-func NewRange(low, high int) Range {
-	return Range{low: low, high: high}
+func NewTemperatureRange(low, high int) temperatureRange {
+	return temperatureRange{low: low, high: high}
 }
 
-func (r *Range) ApplyConstraint(constraint constraint) {
+func (r *temperatureRange) ApplyConstraint(constraint constraint) {
 	if constraint.isLowerBound {
 		if constraint.value > r.low {
 			r.low = constraint.value
@@ -35,7 +35,7 @@ func (r *Range) ApplyConstraint(constraint constraint) {
 	}
 }
 
-func (r *Range) GetOptimalTemperature() (int, error) {
+func (r *temperatureRange) GetOptimalTemperature() (int, error) {
 	if r.low > r.high {
 		return -1, errors.New("Error: temperature range is empty")
 	}
