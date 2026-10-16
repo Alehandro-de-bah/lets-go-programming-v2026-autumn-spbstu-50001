@@ -1,5 +1,7 @@
 package climate
 
+import "errors"
+
 const (
 	MinTemperature = 15
 	MaxTemperature = 30
@@ -38,10 +40,10 @@ func (r *Range) ApplyConstraint(constraint Constraint) {
 	}
 }
 
-func (r *Range) GetOptimalTemperature() int {
+func (r *Range) GetOptimalTemperature() (int, error) {
 	if r.low > r.high {
-		return -1
+		return -1, errors.New("Error: temperature range is empty")
 	}
 
-	return r.low
+	return r.low, nil
 }

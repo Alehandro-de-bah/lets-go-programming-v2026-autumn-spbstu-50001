@@ -9,12 +9,14 @@ import (
 func main() {
 	var departmentsNumber int
 	if _, err := fmt.Scan(&departmentsNumber); err != nil {
+		fmt.Println("Error: invalid number of departments")
 		return
 	}
 
 	for range departmentsNumber {
 		var employeesNumber int
 		if _, err := fmt.Scan(&employeesNumber); err != nil {
+			fmt.Println("Error: invalid number of employees")
 			return
 		}
 
@@ -32,7 +34,11 @@ func main() {
 
 			currentRange.ApplyConstraint(climate.NewConstraint(comparison, temperature))
 
-			optimalTemperature := currentRange.GetOptimalTemperature()
+			optimalTemperature, err := currentRange.GetOptimalTemperature()
+			if err != nil {
+				fmt.Println(-1)
+				continue
+			}
 			fmt.Println(optimalTemperature)
 		}
 	}
