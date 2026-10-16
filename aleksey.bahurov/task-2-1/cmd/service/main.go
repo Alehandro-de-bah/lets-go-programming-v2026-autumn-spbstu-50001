@@ -28,6 +28,7 @@ func main() {
 		currentRange, err := climate.NewTemperatureRange(minTemperature, maxTemperature)
 		if err != nil {
 			fmt.Println(err.Error())
+			return
 		}
 
 		for range employeesNumber {
