@@ -34,6 +34,7 @@ func main() {
 			)
 
 			if _, err := fmt.Scan(&comparison, &temperature); err != nil {
+				fmt.Println("Error: invalid comparison or input")
 				return
 			}
 

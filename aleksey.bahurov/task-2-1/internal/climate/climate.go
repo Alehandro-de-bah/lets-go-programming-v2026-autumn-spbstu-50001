@@ -2,13 +2,13 @@ package climate
 
 import "errors"
 
-type Constraint struct {
+type constraint struct {
 	isLowerBound bool
 	value        int
 }
 
-func NewConstraint(cmp string, temp int) Constraint {
-	return Constraint{
+func NewConstraint(cmp string, temp int) constraint {
+	return constraint{
 		isLowerBound: cmp == ">=",
 		value:        temp,
 	}
@@ -23,7 +23,7 @@ func NewRange(low, high int) Range {
 	return Range{low: low, high: high}
 }
 
-func (r *Range) ApplyConstraint(constraint Constraint) {
+func (r *Range) ApplyConstraint(constraint constraint) {
 	if constraint.isLowerBound {
 		if constraint.value > r.low {
 			r.low = constraint.value
