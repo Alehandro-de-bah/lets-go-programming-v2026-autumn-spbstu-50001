@@ -7,20 +7,24 @@ import (
 
 type minHeap []int
 
-func (h minHeap) Len() int {
-	return len(h)
+func (h *minHeap) Len() int {
+	return len(*h)
 }
 
-func (h minHeap) Less(i, j int) bool {
-	return h[i] < h[j]
+func (h *minHeap) Less(i, j int) bool {
+	return (*h)[i] < (*h)[j]
 }
 
-func (h minHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
+func (h *minHeap) Swap(i, j int) {
+	(*h)[i], (*h)[j] = (*h)[j], (*h)[i]
 }
 
 func (h *minHeap) Push(x any) {
-	*h = append(*h, x.(int))
+	value, ok := x.(int)
+	if !ok {
+		return
+	}
+	*h = append(*h, value)
 }
 
 func (h *minHeap) Pop() any {
@@ -28,6 +32,7 @@ func (h *minHeap) Pop() any {
 	oldLength := len(oldHeap)
 	lastElement := oldHeap[oldLength-1]
 	*h = oldHeap[0 : oldLength-1]
+
 	return lastElement
 }
 
@@ -39,33 +44,48 @@ const (
 	minPreferenceNumber = 1
 )
 
-func main() {
+func readDishesNumber() (int, error) {
 	var dishesNumber int
 	if _, err := fmt.Scan(&dishesNumber); err != nil {
-		fmt.Printf("Invalid number of dishes: %s\n", err.Error())
-
-		return
+		return 0, fmt.Errorf("Invalid number of dishes: %w", err)
 	}
 
 	if dishesNumber < minDishesNumber || dishesNumber > maxDishesNumber {
-		fmt.Printf("Number of dishes must be in range [%d, %d]\n", minDishesNumber, maxDishesNumber)
+		return 0, fmt.Errorf("Number of dishes must be in range [%d, %d]", minDishesNumber, maxDishesNumber)
+	}
+
+	return dishesNumber, nil
+}
+
+func readRatings(dishesNumber int) ([]int, error) {
+	rating := make([]int, dishesNumber)
+
+	for index := range rating {
+		if _, err := fmt.Scan(&rating[index]); err != nil {
+			return nil, fmt.Errorf("Invalid rating of dish: %w", err)
+		}
+
+		if rating[index] < minDishesRating || rating[index] > maxDishesRating {
+			return nil, fmt.Errorf("Rating of dish must be in range [%d, %d]", minDishesRating, maxDishesRating)
+		}
+	}
+
+	return rating, nil
+}
+
+func main() {
+	dishesNumber, err := readDishesNumber()
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
 
 		return
 	}
 
-	rating := make([]int, dishesNumber)
-	for i := range rating {
-		if _, err := fmt.Scan(&rating[i]); err != nil {
-			fmt.Printf("Invalid rating of dish: %s\n", err.Error())
+	rating, err := readRatings(dishesNumber)
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
 
-			return
-		}
-
-		if rating[i] < minDishesRating || rating[i] > maxDishesRating {
-			fmt.Printf("Rating of dish must be in range [%d, %d]\n", minDishesRating, maxDishesRating)
-
-			return
-		}
+		return
 	}
 
 	var preferenceNumber int
@@ -97,5 +117,6 @@ func main() {
 
 		return
 	}
+
 	fmt.Println("dishHeap is empty!")
 }
