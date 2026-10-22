@@ -7,8 +7,9 @@ import (
 )
 
 var (
-	ErrDishesOutOfRange = errors.New("number of dishes must be in range [1, 10000]")
-	ErrRatingOutOfRange = errors.New("number of dishes must be in range [-10000, 10000]")
+	ErrDishesOutOfRange     = errors.New("number of dishes must be in range [1, 10000]")
+	ErrRatingOutOfRange     = errors.New("number of dishes must be in range [-10000, 10000]")
+	ErrPreferenceOutOfRange = errors.New("preference number must be in range [1, dishesNumber]")
 )
 
 type minHeap []int
@@ -80,6 +81,19 @@ func readRatings(dishesNumber int) ([]int, error) {
 	return rating, nil
 }
 
+func readPreferenceNumber(dishesNumber int) (int, error) {
+	var preferenceNumber int
+	if _, err := fmt.Scan(&preferenceNumber); err != nil {
+		return 0, fmt.Errorf("invalid preference number, %w", err)
+	}
+
+	if preferenceNumber < minPreferenceNumber || preferenceNumber > dishesNumber {
+		return 0, ErrPreferenceOutOfRange
+	}
+
+	return preferenceNumber, nil
+}
+
 func main() {
 	dishesNumber, err := readDishesNumber()
 	if err != nil {
@@ -95,15 +109,9 @@ func main() {
 		return
 	}
 
-	var preferenceNumber int
-	if _, err := fmt.Scan(&preferenceNumber); err != nil {
-		fmt.Printf("Invalid preference number: %s\n", err.Error())
-
-		return
-	}
-
-	if preferenceNumber < minPreferenceNumber || preferenceNumber > dishesNumber {
-		fmt.Printf("Preference number must be in range [%d, %d]\n", minPreferenceNumber, dishesNumber)
+	preferenceNumber, err := readPreferenceNumber(dishesNumber)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
 
 		return
 	}
