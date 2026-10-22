@@ -2,7 +2,13 @@ package main
 
 import (
 	"container/heap"
+	"errors"
 	"fmt"
+)
+
+var (
+	ErrDishesOutOfRange = errors.New("number of dishes must be in range [1, 10000]")
+	ErrRatingOutOfRange = errors.New("number of dishes must be in range [-10000, 10000]")
 )
 
 type minHeap []int
@@ -24,6 +30,7 @@ func (h *minHeap) Push(x any) {
 	if !ok {
 		return
 	}
+
 	*h = append(*h, value)
 }
 
@@ -47,11 +54,11 @@ const (
 func readDishesNumber() (int, error) {
 	var dishesNumber int
 	if _, err := fmt.Scan(&dishesNumber); err != nil {
-		return 0, fmt.Errorf("Invalid number of dishes: %w", err)
+		return 0, fmt.Errorf("invalid number of dishes, %w", err)
 	}
 
 	if dishesNumber < minDishesNumber || dishesNumber > maxDishesNumber {
-		return 0, fmt.Errorf("Number of dishes must be in range [%d, %d]", minDishesNumber, maxDishesNumber)
+		return 0, ErrDishesOutOfRange
 	}
 
 	return dishesNumber, nil
@@ -62,11 +69,11 @@ func readRatings(dishesNumber int) ([]int, error) {
 
 	for index := range rating {
 		if _, err := fmt.Scan(&rating[index]); err != nil {
-			return nil, fmt.Errorf("Invalid rating of dish: %w", err)
+			return nil, fmt.Errorf("invalid rating of dish, %w", err)
 		}
 
 		if rating[index] < minDishesRating || rating[index] > maxDishesRating {
-			return nil, fmt.Errorf("Rating of dish must be in range [%d, %d]", minDishesRating, maxDishesRating)
+			return nil, ErrRatingOutOfRange
 		}
 	}
 
@@ -76,14 +83,14 @@ func readRatings(dishesNumber int) ([]int, error) {
 func main() {
 	dishesNumber, err := readDishesNumber()
 	if err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Error: %s\n", err.Error())
 
 		return
 	}
 
 	rating, err := readRatings(dishesNumber)
 	if err != nil {
-		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("Error: %s\n", err.Error())
 
 		return
 	}
