@@ -36,6 +36,10 @@ func (h *minHeap) Push(x any) {
 }
 
 func (h *minHeap) Pop() any {
+	if len(*h) == 0 {
+		return nil
+	}
+
 	oldHeap := *h
 	oldLength := len(oldHeap)
 	lastElement := oldHeap[oldLength-1]
