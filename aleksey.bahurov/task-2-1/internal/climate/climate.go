@@ -14,11 +14,14 @@ type constraint struct {
 }
 
 func NewConstraint(cmp string, temp int) (constraint, error) {
-	if cmp != ">=" && cmp != "<=" {
+	switch cmp {
+	case ">=":
+		return constraint{isLowerBound: true, value: temp}, nil
+	case "<=":
+		return constraint{isLowerBound: false, value: temp}, nil
+	default:
 		return constraint{}, ErrInvalidOperator
 	}
-
-	return constraint{isLowerBound: cmp == ">=", value: temp}, nil
 }
 
 type temperatureRange struct {
@@ -50,7 +53,7 @@ func (r *temperatureRange) ApplyConstraint(constraint constraint) {
 
 func (r *temperatureRange) GetOptimalTemperature() (int, error) {
 	if r.low > r.high {
-		return -1, ErrEmptyRange
+		return 0, ErrEmptyRange
 	}
 
 	return r.low, nil
